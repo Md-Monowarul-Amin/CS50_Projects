@@ -65,7 +65,7 @@ def create(request):
                 util.save_entry(title, message)
                 return TITLE_(request,title)
             else:
-                return render(request, "encyclopedia/error.html", {"message": f"{title} Already  Exists"})
+                return render(request, "encyclopedia/error.html", {"message": f"{title} Already  Exists", "visit":True, "title":title})
     else:
         return render(request, "encyclopedia/create.html", {"form": NewEntyForm()})
     

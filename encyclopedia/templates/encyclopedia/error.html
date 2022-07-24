@@ -8,5 +8,7 @@
     <h1>Error</h1>
 
     <h1>{{message}}</h1>
-
+    {% if visit %}
+        <a href="{% url 'encyclopedia:title' title %}"> Edit {{title}}</a>
+    {% endif %}
 {% endblock %}
