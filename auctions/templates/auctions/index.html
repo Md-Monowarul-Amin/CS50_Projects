@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+
+{% block dropdown %}
+
+{% endblock %}
+
+{% block body %}
+{% if winning_message %}
+<div class="alert alert-danger" role="alert">
+  {{winning_message}}
+</div>
+{% endif %}
+  
+    <h2>Active Listings</h2>
+
+    {% for auction in auctions %}
+    <div class="card" style="width: 18rem;">
+        <img class="img-responsive" src={{auction.image}} alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{auction.title}}</h5>
+          <p class="card-text">{{auction.description}}</p>
+          <h6><strong> $ {{auction.current_bid}}</strong></h6>
+          <a href="{% url 'listing' auction.id %}" class="btn btn-primary">Visit Auction</a>
+          {% if auction.created_by == curr_user %}
+            {% if auction.is_active %}
+              <a href="{% url 'CloseAuction' auction.id %}" class="btn btn-primary">Close Auction</a>
+            {% endif %}
+          
+          {% endif  %}
+          
+          {% if not auction.is_active %}
+              <button>Closed</button>
+          {% endif %}
+
+        </div>
+      </div>
+      {% empty %}
+        <p><strong>No Active listing for {{selected_category.name}}</strong></p>
+    {% endfor %}
+{% endblock %}
+
+
