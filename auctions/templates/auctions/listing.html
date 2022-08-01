@@ -1,0 +1,52 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if message %}
+    <div class="alert alert-success" role="alert">
+        {{message}}
+    </div>
+    {% endif %}
+    <h1>Listing: {{listing.title}}</h1>
+    {% if watchlist %}
+        <a href="{% url 'RemoveFromWatchList' listing.id %}" class="btn btn-danger">Remove From WatchList</a><br><br>
+    {% else %}
+        <button type="button"><a href="{% url 'AddToWatchList' listing.id %}">Add To WatchList</a></button><br><br>
+    {% endif %}
+    <img src={{listing.image}} alt="Girl in a jacket">
+    <p>{{listing.description}}</p>
+    <h2>$ {{listing.current_bid}}</h2>
+    <p>Current bid owner: <strong>{{curr_bid_owner.bid_owner}}</strong></p>
+    {% if listing.is_active %}
+    <form action="{%url 'create_bid' listing.id %}" method="post">
+        {% csrf_token %} 
+        <label for="Bid Price">Bid Price:</label>
+        <input type="number" id="bidprice" name="bidprice"><br><br>
+        
+        {% if message %}
+        <p style="color:red;">{{message}}</p>
+        {% endif %}
+        <input type="submit" value="Add Your Bid">
+    </form>
+    {% endif %}
+    <h3>Details:</h3>
+    <ul>
+        <li>Listed By: <strong>{{listing.created_by}}</strong></li>
+        <li>Category: <strong>{{listing.category}}</strong></li>
+    </ul>
+
+    <form action="{%url 'AddComment' listing.id %}" method="post">
+        {% csrf_token %} 
+        <input type="text" id="comment" name="comment" placeholder="Add your Comment"><br><br>
+        <input type="submit" value="Add Your Comment">
+    </form>
+
+    <H3>Comments:</H3>
+    {% for comment in comments %}
+    <h6>Commented By: {{comment.user}}</h6>
+    <p>{{ comment.comment }}</p>
+    {% empty %}
+    <P>No comments yet. </P>
+    {% endfor %}
+
+{% endblock%}
+

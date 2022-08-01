@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    {% for auction in auctions %}
+    <div class="card" style="width: 18rem;">
+        <img class="img-responsive" src={{auction.image}} alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{auction.title}}</h5>
+          <p class="card-text">{{auction.description}}</p>
+          <h6><strong> $ {{auction.current_bid}}</strong></h6>
+          <a href="{% url 'listing' auction.id %}" class="btn btn-primary">Visit Auction</a><br><br>
+          <a href="{% url 'RemoveFromWatchList' auction.id %}" class="btn btn-danger">Remove From WatchList</a>
+          {% if auction.created_by == curr_user %}
+          <a href="{% url 'CloseAuction' auction.id %}" class="btn btn-primary">Close Auction</a>
+          {% endif  %}
+        </div>
+      </div>
+    {% empty %}
+    <p>Nothing in watch List</p>
+    {% endfor %}
+{% endblock %}

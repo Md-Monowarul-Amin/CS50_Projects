@@ -1,0 +1,7 @@
+{% extends "auctions/index.html" %}
+
+{% block result %}
+<div class="alert alert-danger" role="alert">
+    {{win.listing.title}} closed, Winner is {{win.user.username}}
+  </div>
+{% endblock %}
